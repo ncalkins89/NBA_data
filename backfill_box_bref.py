@@ -11,10 +11,11 @@ start_date = '2000-01-01'
 
 # generate list of days between start date and yesterday
 yesterday = (datetime.datetime.today() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
-dates = pd.date_range(start=start_date, end=yesterday, freq='D').sort_values(ascending=False)
+dates = list(pd.date_range(start=start_date, end=yesterday, freq='D'))
+dates.sort(reverse=True)
 
 # loop through all dates, attempt to scrape, and save as .txt
-for cur_date in dates:
+for cur_date in dates[0:2]:
     try:
         df = box.scrape_all_box_scores(cur_date.year, cur_date.month, cur_date.day)
         export_path = os.path.join(export_folder, cur_date.strftime('%Y%m%d') + '.txt')
