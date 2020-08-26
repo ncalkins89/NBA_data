@@ -7,8 +7,8 @@ import os
 # args
 # 1998 is first year that works, since team name changes break this API
 # season_end_year = 1998
-# season_end_years = list(range(1998, 2021))
-season_end_years = list(range(1998, 1999))
+season_end_years = list(range(1998, 2021))
+# season_end_years = list(range(1998, 1999))
 
 # start_date = '2019-01-01'
 # end_date = '2019-12-31'
@@ -33,7 +33,7 @@ for season_end_year in season_end_years:
     all_dates = [date.strftime('%Y-%m-%d') for date in sched_df['start_time'].dt.date.unique()]
     # all_dates = [date.strftime('%Y-%m-%d') for date in pd.date_range('1998-04-01', '1998-04-14')]
 
-    season_id = '{}-{}'.format(season_end_year, str(season_end_year + 1)[-2:])
+    season_id = '{}-{}'.format(season_end_year - 1, str(season_end_year)[-2:])
 
     for date in all_dates:
         print(date)
@@ -57,6 +57,8 @@ for season_end_year in season_end_years:
     all_dfs['points'] = (2 * all_dfs['made_two_point_field_goals'] +
                          3 * all_dfs['made_three_point_field_goals'] +
                          1 * all_dfs['made_free_throws'])
+
+    all_dfs['total_rebounds'] = all_dfs['defensive_rebounds'] + all_dfs['offensive_rebounds']
 
     all_dfs['season_id'] = season_id
     all_dfs['season_end_year'] = season_end_year
